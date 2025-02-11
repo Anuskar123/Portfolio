@@ -1,0 +1,47 @@
+<!-- filepath: /c:/Users/DEII/class1/home/templates/contact.html -->
+{% extends 'base.html' %}
+
+{% block title %}Contact{% endblock %}
+
+{% block content %}
+<section id="contact" class="mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Contact Information</h3>
+            <p><strong>Email:</strong> anuskarsigdel04@gmail.com</p>
+            <p><strong>Phone:</strong> +977 9810216186</p>
+            <p><strong>Address:</strong> Sundarijal, Kathmandu, Nepal</p>
+        </div>
+        <div class="col-md-6">
+            <h3>Send a Message</h3>
+            <form id="contact-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Send</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.getElementById('contact-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const message = document.getElementById('message').value;
+        const mailtoLink = `mailto:anuskarsigdel04@gmail.com?subject=Message from ${name}&body=${message} (from ${email})`;
+        window.location.href = mailtoLink;
+    });
+</script>
+{% endblock %}

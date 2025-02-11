@@ -1,0 +1,222 @@
+<!-- filepath: /c:/Users/DEII/class1/home/templates/base.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Portfolio{% endblock %}</title>
+    {% load static %}
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to right, #6a11cb, #2575fc); /* Subtle gradient background */
+            color: #fff; /* White text color for better readability */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+        }
+        .navbar {
+            background-color: #343a40; /* Dark navbar */
+        }
+        .navbar-brand {
+            font-size: 2rem; /* Larger text */
+            font-weight: bold;
+            color: #fff; /* White text */
+        }
+        .navbar-nav .nav-link {
+            color: #fff; /* White text for nav links */
+        }
+        .navbar-nav .nav-link:hover {
+            color: #2575fc; /* Hover color for nav links */
+        }
+        .footer {
+            background-color: #343a40;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-top: auto;
+        }
+        .footer a {
+            color: #f8f9fa;
+        }
+        .footer a:hover {
+            color: #d4d4d4;
+        }
+        .section-title {
+            font-size: 2.5rem; /* Larger text */
+            margin-bottom: 20px;
+            text-align: center;
+            color: #fff; /* White text */
+        }
+        .container {
+            background-color: rgba(0, 0, 0, 0.7); /* Dark background for better readability */
+            color: #fff; /* White text */
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+            margin-top: 3rem;
+            animation: fadeIn 1s ease-in-out;
+        }
+        .add-post-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 50%;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .add-post-btn:hover {
+            background-color: #0056b3;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        /* Card styles for projects */
+        .card {
+            background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+            color: #fff; /* Ensure text is white */
+            border: none;
+        }
+        .card-title, .card-text {
+            color: #fff; /* Ensure text is white */
+        }
+        .card-body {
+            background-color: rgba(0, 0, 0, 0.7); /* Dark background for card body */
+            padding: 15px;
+            border-radius: 12px;
+        }
+        /* Profile page styles */
+        .profile-header {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .profile-cover img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .profile-info {
+            position: absolute;
+            bottom: -5px;
+            left: 20px;
+        }
+        .profile-picture img {
+            border: 5px solid white;
+        
+        }
+        .profile-details h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        .profile-details p {
+            margin: 0;
+            color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="{% url 'home' %}">My Portfolio</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'about' %}">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'projects' %}">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'skills' %}">Skills</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Login</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <div>
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+
+    <footer class="footer mt-auto py-3">
+        <div class="container text-center">
+            <span class="text-muted">&copy; 2025 My Portfolio. All rights reserved.</span>
+            <div class="mt-2">
+                <a href="#" class="text-muted">Privacy Policy</a> | 
+                <a href="#" class="text-muted">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <a href="{% url 'add_post' %}" class="add-post-btn" data-toggle="tooltip" title="Add New Post">
+        <i class="fas fa-plus"></i>
+    </a>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script>
+        $(document).ready(function(){
+            // Smooth scrolling for internal links
+            $('a[href*="#"]').on('click', function(e) {
+                e.preventDefault();
+                $('html, body').animate({
+                    scrollTop: $($(this).attr('href')).offset().top
+                }, 500, 'linear');
+            });
+
+            // Tooltip initialization
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+</body>
+</html>

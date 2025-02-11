@@ -1,0 +1,16 @@
+<!-- filepath: /c:/Users/DEII/class1/home/templates/delete_post.html -->
+{% extends 'base.html' %}
+
+{% block title %}Delete Post{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="section-title">Delete Post</h2>
+    <p>Are you sure you want to delete the post titled "{{ post.title }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a href="{% url 'projects' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

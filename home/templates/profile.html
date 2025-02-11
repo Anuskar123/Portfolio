@@ -1,0 +1,61 @@
+<!-- filepath: /c:/Users/DEII/class1/home/templates/profile.html -->
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="profile-header">
+        <div class="profile-cover">
+            <img src="{% static 'images/coverpic.jpg' %}" alt="Cover Photo" class="img-fluid">
+        </div>
+        <div class="profile-info d-flex align-items-center" > <!-- Adjusted margin to move the profile info upwards -->
+            <div class="profile-picture" >
+                {% if profile.profile_picture %}
+                <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" class="rounded-circle" style="width: 150px; height: 150px;"style="margin-top: -100px;">
+                {% else %}
+                <img src="{% static 'images/default.jpg' %}" alt="Default Profile Picture" class="rounded-circle" style="width: 150px; height: 150px;">
+                {% endif %}
+            </div>
+            <div class="profile-details ml-4"style="margin-top: -100px;">
+                <h2>{{ request.user.username }}</h2>
+                <p>{{ request.user.email }}</p>
+                <p>{{ profile.address }}</p>
+                <p>{{ profile.phone_number }}</p>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-primary mt-3" onclick="document.getElementById('update-profile-form').style.display='block'; this.style.display='none';">Update Profile</button>
+    <form id="update-profile-form" method="post" enctype="multipart/form-data" style="display: none;">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="username">Username</label>
+            {{ user_form.username }}
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            {{ user_form.email }}
+        </div>
+        <div class="form-group">
+            <label for="address">Address</label>
+            {{ profile_form.address }}
+        </div>
+        <div class="form-group">
+            <label for="phone_number">Phone Number</label>
+            {{ profile_form.phone_number }}
+        </div>
+        <div class="form-group">
+            <label for="profile_picture">Profile Picture</label>
+            {{ profile_form.profile_picture }}
+        </div>
+        <div class="form-group">
+            <label for="cover_photo">Cover Photo</label>
+            {{ profile_form.cover_photo }}
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+    </form>
+    <a href="{% url 'logout' %}" class="btn btn-secondary mt-3">Logout</a>
+</div>
+{% endblock %}

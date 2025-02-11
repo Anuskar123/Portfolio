@@ -15,6 +15,6 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('post/<int:pk>/delete/', views.delete_post, name='delete_post'),
     path('post/<int:pk>/update/', views.update_post, name='update_post'),
-    path('api/', include('home.api.urls')),
+    
   
 ]
